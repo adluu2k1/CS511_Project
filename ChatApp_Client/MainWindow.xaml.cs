@@ -20,9 +20,17 @@ namespace ChatApp_Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        Client_Process client;
         public MainWindow()
         {
             InitializeComponent();
+            client = new Client_Process();
+            
+        }
+
+        private void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send("Client" + client.ID.ToString() + " " + tbMessage.Text);
         }
     }
 }

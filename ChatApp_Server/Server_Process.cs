@@ -27,12 +27,24 @@ namespace ChatApp_Server
 
         private void AcceptClient(IAsyncResult ar)
         {
-            ClientConnection client = new();
-            
-            ClientsList.Add(client);
-            Console.WriteLine("New client joined.\n");
+            Console.WriteLine("I: Incomming client...");
+            try
+            {
+                ClientConnection client = new(Listener.EndAcceptTcpClient(ar));
 
-            Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
+                ClientsList.Add(client);
+                Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
+
+                Console.WriteLine("I: Client " + client.ID.ToString() + " joined the conversation.");
+                SendAll("I: Client " + client.ID.ToString() + " joined the conversation.");
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR: Cannot accept new client.");
+                Debug.Print("\n" + e.ToString() + "\n");
+            }
         }
 
 
@@ -46,14 +58,23 @@ namespace ChatApp_Server
 
         public void Start()
         {
-            Listener.Start();
-            Console.Write("Waiting for connection...\n");
-            Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
+            try
+            {
+                Listener.Start();
+                Console.WriteLine("I: Waiting for connection...");
+                Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR: Cannot listen for new clients.");
+                Debug.Print("\n" + e.ToString() + "\n");
+            }
         }
 
         public void OnMessageReceived(ClientConnection client, string msg)
         {
             Console.WriteLine("Client " + client.ID.ToString() + ": " + msg);
+            SendAll("Client " + client.ID.ToString() + ": " + msg);
         }
 
         public void SendAll(string str)
@@ -67,19 +88,38 @@ namespace ChatApp_Server
         public void DisconnectClient(ClientConnection client)
         {
             ClientsList.Remove(client);
-            //rtxtboxLog_AppendText("Client exited.\n");
+            Console.WriteLine("I: Client " + client.ID.ToString() + " has been disconnected.");
+            SendAll("I: Client " + client.ID.ToString() + " has been disconnected.");
         }
     }
 
     internal class ClientConnection
     {
-        public int ID { get; private set; }
-        private TcpClient tcpClient = new();
+        public int ID { get; private set; } = 0;
+        private TcpClient tcpClient;
 
-        public ClientConnection()
+        public ClientConnection(TcpClient tcpClient)
         {
-            ID = new Random().Next(1000);
-            tcpClient.GetStream().BeginRead(new byte[0], 0, 0, new AsyncCallback(CallBack_Read), null);
+            this.tcpClient = tcpClient;
+            while (true)
+            {
+                string? msg = new StreamReader(tcpClient.GetStream()).ReadLine();
+                if (msg != null)
+                {
+                    if (msg.StartsWith("SetID"))
+                    {
+                        ID = Convert.ToInt32(msg.Split(' ')[1]);
+                    }
+                    else
+                    {
+                        ID = new Random().Next(1, short.MaxValue);
+                        Console.WriteLine("WARNING: Cannot retrieve ID from incomming client. A random ID has been assigned.");
+                    }
+                    break;
+                }
+            }
+
+            this.tcpClient.GetStream().BeginRead(new byte[0], 0, 0, new AsyncCallback(CallBack_Read), null);
         }
 
         private void CallBack_Read(IAsyncResult ar)
@@ -97,20 +137,28 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Program.server.DisconnectClient(this);
-                Debug.Print(e.ToString());
+                Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
         private void OnMessageReceived(string msg)
         {
-            Program.server.OnMessageReceived(this, msg);
+            Program.server.OnMessageReceived(this, msg[(7 + ID.ToString().Length)..]);
         }
 
         public void Send(string str)
         {
-            StreamWriter sWriter = new(tcpClient.GetStream());
-            sWriter.WriteLine(str);
-            sWriter.Flush();
+            try
+            {
+                StreamWriter sWriter = new(tcpClient.GetStream());
+                sWriter.WriteLine(str);
+                sWriter.Flush();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR: Client " + ID + " cannot send message.");
+                Debug.Print("\n" + e.ToString() + "\n");
+            }
         }
     }
 }
