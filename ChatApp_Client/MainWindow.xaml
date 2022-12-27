@@ -15,7 +15,7 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <TextBox x:Name="tbMessage" HorizontalAlignment="Center" Height="27" Margin="0,309,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="676"/>
+        <TextBox x:Name="tbMessage" HorizontalAlignment="Center" Height="27" Margin="0,309,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="676" KeyUp="tbMessage_KeyUp"/>
         <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Center" Height="35" Margin="0,359,0,0" VerticalAlignment="Top" Width="114" Click="btnSend_Click"/>
 
     </Grid>

@@ -34,5 +34,16 @@ namespace ChatApp_Client
             tbMessage.Clear();
             tbMessage.Focus();
         }
+
+        private void tbMessage_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                // Duplicate btnSend_Click()
+                client.Send("Client" + client.ID.ToString() + " " + tbMessage.Text);
+                tbMessage.Clear();
+                tbMessage.Focus();
+            }
+        }
     }
 }
