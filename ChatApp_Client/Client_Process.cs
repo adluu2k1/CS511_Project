@@ -80,6 +80,7 @@ namespace ChatApp_Client
                 paragraph.TextAlignment = TextAlignment.Left;
             }
             rtbConsole.Document.Blocks.Add(paragraph);
+            rtbConsole.ScrollToEnd();
             
         }
         public void Send(string str)

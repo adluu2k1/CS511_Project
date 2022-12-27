@@ -31,6 +31,8 @@ namespace ChatApp_Client
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
             client.Send("Client" + client.ID.ToString() + " " + tbMessage.Text);
+            tbMessage.Clear();
+            tbMessage.Focus();
         }
     }
 }
