@@ -8,15 +8,28 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <RichTextBox x:Name="rtbConsole" x:FieldModifier="public" HorizontalAlignment="Center" Height="253" Margin="0,30,0,0" VerticalAlignment="Top" Width="676" AcceptsReturn="False" IsReadOnly="True" FontFamily="Arial" VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <RichTextBox Grid.Row="0" x:Name="rtbConsole" Margin="50, 30" AcceptsReturn="False" IsReadOnly="True" FontFamily="Arial" VerticalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <TextBox x:Name="tbMessage" HorizontalAlignment="Center" Height="27" Margin="0,309,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="676" KeyUp="tbMessage_KeyUp"/>
-        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Center" Height="35" Margin="0,359,0,0" VerticalAlignment="Top" Width="114" Click="btnSend_Click"/>
+        
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBox x:Name="tbMessage" Width="650" Height="30" TextWrapping="Wrap" KeyUp="tbMessage_KeyUp" FontSize="15"/>
+            <Button x:Name="btnImage" Height="30" Width="30" Margin="20, 0, 0, 0" Background="Transparent" BorderBrush="Transparent" Click="btnImage_Click">
+                <Image Source="resources/image.png" Stretch="Fill"/>
+            </Button>
+        </StackPanel>
+        
+        <Button Grid.Row="2" x:Name="btnSend" Content="Send" HorizontalAlignment="Center" Height="35" VerticalAlignment="Top" Width="114" Click="btnSend_Click"/>
 
     </Grid>
 </Window>

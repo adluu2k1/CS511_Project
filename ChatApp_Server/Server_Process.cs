@@ -73,8 +73,9 @@ namespace ChatApp_Server
 
         public void OnMessageReceived(ClientConnection client, string msg)
         {
-            Console.WriteLine("Client " + client.ID.ToString() + ": " + msg);
-            SendAll("Client " + client.ID.ToString() + ": " + msg);
+            string full_msg = "Client " + client.ID.ToString() + ": " + msg;
+            Console.WriteLine(full_msg);
+            SendAll(full_msg);
         }
 
         public void SendAll(string str)
@@ -143,7 +144,7 @@ namespace ChatApp_Server
 
         private void OnMessageReceived(string msg)
         {
-            Program.server.OnMessageReceived(this, msg[(7 + ID.ToString().Length)..]);
+            Program.server.OnMessageReceived(this, String.Join(" ", msg.Split(" ")[1..]));
         }
 
         public void Send(string str)

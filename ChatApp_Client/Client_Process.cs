@@ -66,7 +66,6 @@ namespace ChatApp_Client
             RichTextBox rtbConsole = (RichTextBox)Application.Current.MainWindow.FindName("rtbConsole");
 
             Paragraph paragraph = new();
-            paragraph.Inlines.Add(msg + "\n");
             if (msg.StartsWith("Client " + ID.ToString()))
             {
                 paragraph.TextAlignment = TextAlignment.Right;
@@ -79,6 +78,7 @@ namespace ChatApp_Client
             {
                 paragraph.TextAlignment = TextAlignment.Left;
             }
+            paragraph.Inlines.Add(msg + "\n");
             rtbConsole.Document.Blocks.Add(paragraph);
             rtbConsole.ScrollToEnd();
             
