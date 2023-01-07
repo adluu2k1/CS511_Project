@@ -27,6 +27,9 @@ namespace ChatApp_Client
         public MainWindow()
         {
             InitializeComponent();
+            Width = SystemParameters.MaximizedPrimaryScreenWidth * (3.0 / 5);
+            Height = SystemParameters.MaximizedPrimaryScreenHeight * (4.0 / 5);
+
             client = new();
             
         }
@@ -55,7 +58,6 @@ namespace ChatApp_Client
         {
             OpenFileDialog dlgOpen = new();
             dlgOpen.RestoreDirectory = true;
-            //dlgOpen.Title = "Download";
 
             if (dlgOpen.ShowDialog() == true)
             {

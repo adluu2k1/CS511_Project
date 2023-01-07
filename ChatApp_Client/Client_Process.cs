@@ -17,17 +17,16 @@ namespace ChatApp_Client
     internal class Client_Process
     {
         public int ID { get; private set; } = new Random().Next(1, short.MaxValue);
-        private TcpClient tcpClient = new("127.0.0.1", 1704);
+        private TcpClient? tcpClient;
 
         public Client_Process()
         {
             try
             {
+                tcpClient = new("127.0.0.1", 1704);
                 Send("SetID " + ID.ToString());
                 NetworkStream stream = tcpClient.GetStream();
                 stream.BeginRead(new byte[0], 0, 0, new AsyncCallback(CallBack_Read), null);
-
-                MessageBox.Show("Connected to host successfully!");
             }
             catch (Exception e)
             {
@@ -61,7 +60,7 @@ namespace ChatApp_Client
             Application.Current.Dispatcher.Invoke(DisplayMessage, msg);
         }
 
-        private void DisplayMessage(string msg)
+        public void DisplayMessage(string msg)
         {
             RichTextBox rtbConsole = (RichTextBox)Application.Current.MainWindow.FindName("rtbConsole");
 

@@ -5,8 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatApp_Client"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Title="Chat App" d:Width="930.4" d:Height="664" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"></RowDefinition>
@@ -14,7 +17,7 @@
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <RichTextBox Grid.Row="0" x:Name="rtbConsole" Margin="50, 30" AcceptsReturn="False" IsReadOnly="True" FontFamily="Arial" VerticalScrollBarVisibility="Auto">
+        <RichTextBox Grid.Row="0" x:Name="rtbConsole" Margin="50, 30" AcceptsReturn="False" IsReadOnly="True" FontFamily="Arial" VerticalScrollBarVisibility="Auto" BorderThickness="1,1,1,1">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -24,8 +27,12 @@
         
         <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal">
             <TextBox x:Name="tbMessage" Width="650" Height="30" TextWrapping="Wrap" KeyUp="tbMessage_KeyUp" FontSize="15"/>
-            <Button x:Name="btnImage" Height="30" Width="30" Margin="20, 0, 0, 0" Background="Transparent" BorderBrush="Transparent" Click="btnImage_Click">
-                <Image Source="resources/image.png" Stretch="Fill"/>
+            <Button x:Name="btnImage"
+                    Content="{materialDesign:PackIcon Image, Size=30}" ToolTip="Picture"
+                    Height="50" Width="50"
+                    Background="Transparent" BorderBrush="Transparent"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    Click="btnImage_Click">
             </Button>
         </StackPanel>
         
