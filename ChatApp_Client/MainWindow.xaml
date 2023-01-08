@@ -10,33 +10,92 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         Title="Chat App" d:Width="930.4" d:Height="664" WindowStartupLocation="CenterScreen">
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <RichTextBox Grid.Row="0" x:Name="rtbConsole" Margin="50, 30" AcceptsReturn="False" IsReadOnly="True" FontFamily="Arial" VerticalScrollBarVisibility="Auto" BorderThickness="1,1,1,1">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text=""/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        
-        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal">
-            <TextBox x:Name="tbMessage" Width="650" Height="30" TextWrapping="Wrap" KeyUp="tbMessage_KeyUp" FontSize="15"/>
-            <Button x:Name="btnImage"
-                    Content="{materialDesign:PackIcon Image, Size=30}" ToolTip="Picture"
-                    Height="50" Width="50"
-                    Background="Transparent" BorderBrush="Transparent"
-                    Style="{StaticResource MaterialDesignIconButton}"
-                    Click="btnImage_Click">
-            </Button>
-        </StackPanel>
-        
-        <Button Grid.Row="2" x:Name="btnSend" Content="Send" HorizontalAlignment="Center" Height="35" VerticalAlignment="Top" Width="114" Click="btnSend_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
 
+        <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,0">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                       Content="Chat"
+                       FontFamily="Arial" FontSize="30" FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"/>
+
+            </Grid>
+        </Border>
+
+        <Image Grid.Column="1" Visibility="Collapsed"
+               Source="/resources/chat_bg.png"
+               Stretch="Fill"
+               Opacity="0.2"
+               Margin="120,150"/>
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
+                <RichTextBox x:Name="rtbConsole"
+                         FontFamily="Arial"
+                         VerticalScrollBarVisibility="Auto"
+                         AcceptsReturn="False" IsReadOnly="True" Focusable="False">
+                </RichTextBox>
+            </Border>
+
+            <Grid Grid.Row="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="tbMessage" Grid.Column="0"
+                         Height="30"
+                         Margin="20,0,0,0"
+                         FontSize="15"
+                         TextWrapping="Wrap"
+                         KeyUp="tbMessage_KeyUp" TextChanged="tbMessage_TextChanged">
+
+                </TextBox>
+
+                <materialDesign:PopupBox x:Name="menuMore" Grid.Column="1"
+                                         PlacementMode="TopAndAlignCentres"
+                                         Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                         Margin="20,0,0,0"
+                                         Width="30" Height="30">
+                    <StackPanel>
+                        <Button x:Name="btnImage"
+                                Content="{materialDesign:PackIcon Image}" ToolTip="Picture"
+                                Click="btnImage_Click">
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+
+                <Button x:Name="btnSend" Grid.Column="2"
+                        Content="{materialDesign:PackIcon Send}" ToolTip="Send"
+                        Style="{StaticResource MaterialDesignIconButton}"
+                        IsEnabled="False"
+                        Click="btnSend_Click"/>
+
+            </Grid>
+
+        </Grid>
+        
     </Grid>
 </Window>
