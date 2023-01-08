@@ -41,9 +41,21 @@ namespace ChatApp_Client
 
         private void tbMessage_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && tbMessage.Text != "")
             {
                 Send_tbMessageText();
+            }
+        }
+
+        private void tbMessage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbMessage.Text != "")
+            {
+                btnSend.IsEnabled = true;
+            }
+            else
+            {
+                btnSend.IsEnabled = false;
             }
         }
 
