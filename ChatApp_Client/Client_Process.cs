@@ -19,6 +19,8 @@ namespace ChatApp_Client
         public int ID { get; private set; } = new Random().Next(1, short.MaxValue);
         private TcpClient? tcpClient;
 
+        ChatApp_Client.MainWindow? winMain = Application.Current.Windows.OfType<ChatApp_Client.MainWindow>().FirstOrDefault();
+
         public Client_Process()
         {
             try
@@ -34,14 +36,13 @@ namespace ChatApp_Client
                 Debug.Print("\n" + e.ToString() + "\n");
             }
 
-            Application.Current.MainWindow.Title = "Client ID: " + ID.ToString();
         }
 
         private void CallBack_Read(IAsyncResult ar)
         {
             try
             {
-                string? msg = new StreamReader(tcpClient.GetStream()).ReadLine();
+                string? msg = new StreamReader(tcpClient!.GetStream()).ReadLine();
                 if (msg != null)
                 {
                     OnMessageReceived(msg);
@@ -57,36 +58,27 @@ namespace ChatApp_Client
         }
         private void OnMessageReceived(string msg)
         {
-            Application.Current.Dispatcher.Invoke(DisplayMessage, msg);
-        }
-
-        public void DisplayMessage(string msg)
-        {
-            RichTextBox rtbConsole = (RichTextBox)Application.Current.MainWindow.FindName("rtbConsole");
-
-            Paragraph paragraph = new();
+            HorizontalAlignment alignment;
             if (msg.StartsWith("Client " + ID.ToString()))
             {
-                paragraph.TextAlignment = TextAlignment.Right;
+                alignment = HorizontalAlignment.Right;
             }
             else if (msg.StartsWith("I:"))
             {
-                paragraph.TextAlignment = TextAlignment.Center;
+                alignment = HorizontalAlignment.Center;
             }
             else
             {
-                paragraph.TextAlignment = TextAlignment.Left;
+                alignment = HorizontalAlignment.Left;
             }
-            paragraph.Inlines.Add(msg + "\n");
-            rtbConsole.Document.Blocks.Add(paragraph);
-            rtbConsole.ScrollToEnd();
-            
+            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, msg, alignment);
         }
+
         public void Send(string str)
         {
             try
             {
-                StreamWriter sWriter = new(tcpClient.GetStream());
+                StreamWriter sWriter = new(tcpClient!.GetStream());
                 sWriter.WriteLine(str);
                 sWriter.Flush();
             }

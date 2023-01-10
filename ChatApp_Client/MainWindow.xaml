@@ -49,13 +49,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
-                <RichTextBox x:Name="rtbConsole"
-                         FontFamily="Arial"
-                         VerticalScrollBarVisibility="Auto"
-                         AcceptsReturn="False" IsReadOnly="True" Focusable="False">
-                </RichTextBox>
-            </Border>
+            <StackPanel x:Name="stackChatHistory" Grid.Row="1" Orientation="Vertical"></StackPanel>
 
             <Grid Grid.Row="2">
 

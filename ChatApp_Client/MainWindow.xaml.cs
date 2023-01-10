@@ -34,6 +34,28 @@ namespace ChatApp_Client
             
         }
 
+        public void DisplayMessage(string msg, HorizontalAlignment alignment)
+        {
+            TextBox labelMsg = new();
+            labelMsg.Text = msg;
+            labelMsg.TextWrapping = TextWrapping.Wrap;
+            labelMsg.TextAlignment = TextAlignment.Left;
+            labelMsg.MaxWidth = 400;
+            labelMsg.Margin = new Thickness(5);
+            labelMsg.IsReadOnly = true;
+
+            Border border = new();
+            border.BorderBrush = Brushes.Transparent;
+            border.Background = menuMore.Background;
+            border.MaxWidth = labelMsg.MaxWidth;
+            border.Height = labelMsg.Height;
+            border.CornerRadius = new CornerRadius(5);
+            border.HorizontalAlignment = alignment;
+            border.Child = labelMsg;
+
+            stackChatHistory.Children.Add(border);
+        }
+
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
             Send_tbMessageText();
@@ -61,7 +83,7 @@ namespace ChatApp_Client
 
         private void Send_tbMessageText()
         {
-            client.Send("Client" + client.ID.ToString() + " " + tbMessage.Text);
+            client.Send("Client " + client.ID.ToString() + ": " + tbMessage.Text);
             tbMessage.Clear();
             tbMessage.Focus();
         }
