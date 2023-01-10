@@ -17,12 +17,15 @@ namespace ChatApp_Client
     internal class Client_Process
     {
         public int ID { get; private set; } = new Random().Next(1, short.MaxValue);
+        public string Name { get; private set; }
         private TcpClient? tcpClient;
 
         ChatApp_Client.MainWindow? winMain = Application.Current.Windows.OfType<ChatApp_Client.MainWindow>().FirstOrDefault();
 
         public Client_Process()
         {
+            Name = "Client " + ID.ToString();
+
             try
             {
                 tcpClient = new("127.0.0.1", 1704);
@@ -56,22 +59,26 @@ namespace ChatApp_Client
                 Debug.Print("\n" + e.ToString() + "\n");
             }
         }
+
+        // msg = "text 12345 Message."
+
         private void OnMessageReceived(string msg)
         {
-            HorizontalAlignment alignment;
-            if (msg.StartsWith("Client " + ID.ToString()))
+            string[] arr_msg = msg.Split(" ");
+            string sender = arr_msg[1];
+            string main_msg = String.Join(" ", arr_msg[2..]);
+
+            Message.MessageType msg_type = Message.MessageType.Text;
+            switch (arr_msg[0])
             {
-                alignment = HorizontalAlignment.Right;
+                case "image":
+                    msg_type = Message.MessageType.Image;
+                    break;
             }
-            else if (msg.StartsWith("I:"))
-            {
-                alignment = HorizontalAlignment.Center;
-            }
-            else
-            {
-                alignment = HorizontalAlignment.Left;
-            }
-            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, msg, alignment, "/resources/user_male.png");
+
+            Message message = new(msg_type, sender, main_msg);
+            
+            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, message, "/resources/user_male.png");
         }
 
         public void Send(string str)

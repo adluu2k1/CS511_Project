@@ -27,7 +27,7 @@ namespace ChatApp_Server
 
         private void AcceptClient(IAsyncResult ar)
         {
-            Console.WriteLine("I: Incomming client...");
+            Console.WriteLine("Info: Incomming client...");
             try
             {
                 ClientConnection client = new(Listener.EndAcceptTcpClient(ar));
@@ -35,15 +35,15 @@ namespace ChatApp_Server
                 ClientsList.Add(client);
                 Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
 
-                Console.WriteLine("I: Client " + client.ID.ToString() + " joined the conversation.");
-                SendAll("I: Client " + client.ID.ToString() + " joined the conversation.");
+                Console.WriteLine("Info: Client " + client.ID.ToString() + " joined the conversation.");
+                SendAll("text 0 Client " + client.ID.ToString() + " joined the conversation.");
 
 
             }
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: Cannot accept new client.");
-                //Debug.Print("\n" + e.ToString() + "\n");
+                Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
@@ -61,13 +61,13 @@ namespace ChatApp_Server
             try
             {
                 Listener.Start();
-                Console.WriteLine("I: Waiting for connection...");
+                Console.WriteLine("Info: Server started.");
                 Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
             }
             catch (Exception e)
             {
-                Console.WriteLine("ERROR: Cannot listen for new clients.");
-                //Debug.Print("\n" + e.ToString() + "\n");
+                Console.WriteLine("ERROR: Cannot start server.");
+                Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
@@ -88,8 +88,8 @@ namespace ChatApp_Server
         public void DisconnectClient(ClientConnection client)
         {
             ClientsList.Remove(client);
-            Console.WriteLine("I: Client " + client.ID.ToString() + " has been disconnected.");
-            SendAll("I: Client " + client.ID.ToString() + " has been disconnected.");
+            Console.WriteLine("Info: Client " + client.ID.ToString() + " has been disconnected.");
+            SendAll("text 0 Client " + client.ID.ToString() + " has been disconnected.");
         }
     }
 
@@ -101,6 +101,7 @@ namespace ChatApp_Server
         public ClientConnection(TcpClient tcpClient)
         {
             this.tcpClient = tcpClient;
+            Console.WriteLine("Info: Setting client ID...");
             while (true)
             {
                 string? msg = new StreamReader(tcpClient.GetStream()).ReadLine();
@@ -137,7 +138,7 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Program.server.DisconnectClient(this);
-                //Debug.Print("\n" + e.ToString() + "\n");
+                Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
@@ -157,7 +158,7 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: Client " + ID + " cannot send message.");
-                //Debug.Print("\n" + e.ToString() + "\n");
+                Debug.Print("\n" + e.ToString() + "\n");
             }
         }
     }

@@ -34,10 +34,10 @@ namespace ChatApp_Client
             
         }
 
-        public void DisplayMessage(string msg, HorizontalAlignment alignment, string avatar_path)
+        public void DisplayMessage(Message msg, string avatar_path)
         {
             TextBox labelMsg = new();
-            labelMsg.Text = msg;
+            labelMsg.Text = msg.Content;
             labelMsg.TextWrapping = TextWrapping.Wrap;
             labelMsg.TextAlignment = TextAlignment.Left;
             labelMsg.FlowDirection= FlowDirection.LeftToRight;
@@ -47,7 +47,6 @@ namespace ChatApp_Client
 
             Border ChatBubble = new();
             ChatBubble.BorderBrush = Brushes.Transparent;
-            //ChatBubble.Background = menuMore.Background;
             ChatBubble.MaxWidth = labelMsg.MaxWidth;
             ChatBubble.Height = labelMsg.Height;
             ChatBubble.CornerRadius = new CornerRadius(5);
@@ -64,20 +63,25 @@ namespace ChatApp_Client
             StackPanel panel = new();
             panel.Margin = new Thickness(0, 5, 0, 5);
             panel.Orientation = Orientation.Horizontal;
-            panel.HorizontalAlignment = alignment;
 
-            if (alignment == HorizontalAlignment.Left || alignment == HorizontalAlignment.Right)
+            if (msg.Sender == "0")
+            {
+                panel.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+            else
             {
                 ChatBubble.Background = menuMore.Background;
                 panel.Children.Add(avatar);
 
-                if (alignment == HorizontalAlignment.Left)
+                if (msg.Sender == client.ID.ToString())
                 {
-                    panel.FlowDirection = FlowDirection.LeftToRight;
+                    panel.HorizontalAlignment = HorizontalAlignment.Right;
+                    panel.FlowDirection = FlowDirection.RightToLeft;
                 }
                 else
                 {
-                    panel.FlowDirection = FlowDirection.RightToLeft;
+                    panel.HorizontalAlignment = HorizontalAlignment.Left;
+                    panel.FlowDirection = FlowDirection.LeftToRight;
                 }
             }
             
@@ -113,7 +117,8 @@ namespace ChatApp_Client
 
         private void Send_tbMessageText()
         {
-            client.Send("Client " + client.ID.ToString() + ": " + tbMessage.Text);
+            string msg = "text " + client.ID.ToString() + " " + tbMessage.Text;
+            client.Send(msg);
             tbMessage.Clear();
             tbMessage.Focus();
         }
