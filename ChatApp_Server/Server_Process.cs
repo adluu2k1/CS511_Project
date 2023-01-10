@@ -43,7 +43,7 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: Cannot accept new client.");
-                Debug.Print("\n" + e.ToString() + "\n");
+                //Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
@@ -67,15 +67,14 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: Cannot listen for new clients.");
-                Debug.Print("\n" + e.ToString() + "\n");
+                //Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
         public void OnMessageReceived(ClientConnection client, string msg)
         {
-            string full_msg = "Client " + client.ID.ToString() + ": " + msg;
-            Console.WriteLine(full_msg);
-            SendAll(full_msg);
+            Console.WriteLine(msg);
+            SendAll(msg);
         }
 
         public void SendAll(string str)
@@ -138,13 +137,13 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Program.server.DisconnectClient(this);
-                Debug.Print("\n" + e.ToString() + "\n");
+                //Debug.Print("\n" + e.ToString() + "\n");
             }
         }
 
         private void OnMessageReceived(string msg)
         {
-            Program.server.OnMessageReceived(this, String.Join(" ", msg.Split(" ")[1..]));
+            Program.server.OnMessageReceived(this, msg);
         }
 
         public void Send(string str)
@@ -158,7 +157,7 @@ namespace ChatApp_Server
             catch (Exception e)
             {
                 Console.WriteLine("ERROR: Client " + ID + " cannot send message.");
-                Debug.Print("\n" + e.ToString() + "\n");
+                //Debug.Print("\n" + e.ToString() + "\n");
             }
         }
     }
