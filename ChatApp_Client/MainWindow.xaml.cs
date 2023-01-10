@@ -36,58 +36,16 @@ namespace ChatApp_Client
 
         public void DisplayMessage(Message msg, string avatar_path)
         {
-            TextBox labelMsg = new();
-            labelMsg.Text = msg.Content;
-            labelMsg.TextWrapping = TextWrapping.Wrap;
-            labelMsg.TextAlignment = TextAlignment.Left;
-            labelMsg.FlowDirection= FlowDirection.LeftToRight;
-            labelMsg.MaxWidth = 400;
-            labelMsg.Margin = new Thickness(5);
-            labelMsg.IsReadOnly = true;
-
-            Border ChatBubble = new();
-            ChatBubble.BorderBrush = Brushes.Transparent;
-            ChatBubble.MaxWidth = labelMsg.MaxWidth;
-            ChatBubble.Height = labelMsg.Height;
-            ChatBubble.CornerRadius = new CornerRadius(5);
-            ChatBubble.Child = labelMsg;
-
-            Image avatar = new();
-            avatar.Source = new BitmapImage(new Uri(avatar_path, UriKind.RelativeOrAbsolute));
-            avatar.Stretch = Stretch.Uniform;
-            avatar.Width = 30;
-            avatar.Height = avatar.Width;
-            avatar.Margin = new Thickness(20, 0, 10, 0);
-            avatar.VerticalAlignment = VerticalAlignment.Top;
-
-            StackPanel panel = new();
-            panel.Margin = new Thickness(0, 5, 0, 5);
-            panel.Orientation = Orientation.Horizontal;
-
-            if (msg.Sender == "0")
+            if (client == null)
             {
-                panel.HorizontalAlignment = HorizontalAlignment.Center;
+                return;
             }
-            else
-            {
-                ChatBubble.Background = menuMore.Background;
-                panel.Children.Add(avatar);
 
-                if (msg.Sender == client.ID.ToString())
-                {
-                    panel.HorizontalAlignment = HorizontalAlignment.Right;
-                    panel.FlowDirection = FlowDirection.RightToLeft;
-                }
-                else
-                {
-                    panel.HorizontalAlignment = HorizontalAlignment.Left;
-                    panel.FlowDirection = FlowDirection.LeftToRight;
-                }
-            }
-            
-            panel.Children.Add(ChatBubble);
+            UCMessage MessageUI = new(msg, avatar_path, client.ID, menuMore.Background);
 
-            stackChatHistory.Children.Add(panel);
+            stackChatHistory.Children.Add(MessageUI);
+
+            scrollChatHistory.ScrollToEnd();
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)

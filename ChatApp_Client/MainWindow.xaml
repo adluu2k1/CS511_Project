@@ -36,7 +36,7 @@
         </Border>
 
         <Image Grid.Column="1" Visibility="Collapsed"
-               Source="/resources/chat_bg.png"
+               Source="resources/chat_bg.png"
                Stretch="Fill"
                Opacity="0.2"
                Margin="120,150"/>
@@ -49,7 +49,9 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel x:Name="stackChatHistory" Grid.Row="1" Orientation="Vertical"></StackPanel>
+            <ScrollViewer x:Name="scrollChatHistory" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="stackChatHistory" Orientation="Vertical"></StackPanel>
+            </ScrollViewer>
 
             <Grid Grid.Row="2">
 

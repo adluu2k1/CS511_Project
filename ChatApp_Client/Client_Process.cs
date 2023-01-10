@@ -14,7 +14,7 @@ using System.Windows.Threading;
 
 namespace ChatApp_Client
 {
-    internal class Client_Process
+    public class Client_Process
     {
         public int ID { get; private set; } = new Random().Next(1, short.MaxValue);
         public string Name { get; private set; }
@@ -76,9 +76,9 @@ namespace ChatApp_Client
                     break;
             }
 
-            Message message = new(msg_type, sender, main_msg);
-            
-            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, message, "/resources/user_male.png");
+            Message message = new(msg_type, int.Parse(sender), main_msg);
+
+            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, message, "resources/user_male.png");
         }
 
         public void Send(string str)

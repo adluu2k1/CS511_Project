@@ -15,12 +15,14 @@ namespace ChatApp_Client
         }
 
         public string Content { get; private set; }
-        public string Sender { get; private set; }
+        public string SenderName { get; private set; }
+        public int SenderID { get; private set; }
         public MessageType Type { get; private set; }
 
-        public Message(MessageType type, string sender, string content)
+        public Message(MessageType type, int sender, string content)
         {
-            Type = type; Sender = sender; Content = content;
+            Type = type; SenderID = sender; Content = content;
+            SenderName = "null";
         }
     }
 }
