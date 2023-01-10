@@ -10,6 +10,8 @@
   <ItemGroup>
     <None Remove="resources\chat_bg.png" />
     <None Remove="resources\image.png" />
+    <None Remove="resources\user_female.png" />
+    <None Remove="resources\user_male.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,8 @@
     <Resource Include="resources\image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="resources\user_female.png" />
+    <Resource Include="resources\user_male.png" />
   </ItemGroup>
 
 </Project>

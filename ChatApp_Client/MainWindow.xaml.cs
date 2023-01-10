@@ -34,26 +34,56 @@ namespace ChatApp_Client
             
         }
 
-        public void DisplayMessage(string msg, HorizontalAlignment alignment)
+        public void DisplayMessage(string msg, HorizontalAlignment alignment, string avatar_path)
         {
             TextBox labelMsg = new();
             labelMsg.Text = msg;
             labelMsg.TextWrapping = TextWrapping.Wrap;
             labelMsg.TextAlignment = TextAlignment.Left;
+            labelMsg.FlowDirection= FlowDirection.LeftToRight;
             labelMsg.MaxWidth = 400;
             labelMsg.Margin = new Thickness(5);
             labelMsg.IsReadOnly = true;
 
-            Border border = new();
-            border.BorderBrush = Brushes.Transparent;
-            border.Background = menuMore.Background;
-            border.MaxWidth = labelMsg.MaxWidth;
-            border.Height = labelMsg.Height;
-            border.CornerRadius = new CornerRadius(5);
-            border.HorizontalAlignment = alignment;
-            border.Child = labelMsg;
+            Border ChatBubble = new();
+            ChatBubble.BorderBrush = Brushes.Transparent;
+            //ChatBubble.Background = menuMore.Background;
+            ChatBubble.MaxWidth = labelMsg.MaxWidth;
+            ChatBubble.Height = labelMsg.Height;
+            ChatBubble.CornerRadius = new CornerRadius(5);
+            ChatBubble.Child = labelMsg;
 
-            stackChatHistory.Children.Add(border);
+            Image avatar = new();
+            avatar.Source = new BitmapImage(new Uri(avatar_path, UriKind.RelativeOrAbsolute));
+            avatar.Stretch = Stretch.Uniform;
+            avatar.Width = 30;
+            avatar.Height = avatar.Width;
+            avatar.Margin = new Thickness(20, 0, 10, 0);
+            avatar.VerticalAlignment = VerticalAlignment.Top;
+
+            StackPanel panel = new();
+            panel.Margin = new Thickness(0, 5, 0, 5);
+            panel.Orientation = Orientation.Horizontal;
+            panel.HorizontalAlignment = alignment;
+
+            if (alignment == HorizontalAlignment.Left || alignment == HorizontalAlignment.Right)
+            {
+                ChatBubble.Background = menuMore.Background;
+                panel.Children.Add(avatar);
+
+                if (alignment == HorizontalAlignment.Left)
+                {
+                    panel.FlowDirection = FlowDirection.LeftToRight;
+                }
+                else
+                {
+                    panel.FlowDirection = FlowDirection.RightToLeft;
+                }
+            }
+            
+            panel.Children.Add(ChatBubble);
+
+            stackChatHistory.Children.Add(panel);
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)

@@ -71,7 +71,7 @@ namespace ChatApp_Client
             {
                 alignment = HorizontalAlignment.Left;
             }
-            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, msg, alignment);
+            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, msg, alignment, "/resources/user_male.png");
         }
 
         public void Send(string str)
