@@ -10,26 +10,23 @@ namespace ChatApp_Client
     {
         public enum MessageType
         {
-            RequestResponse,
+            Response,
             Text,
             Image
         }
 
         public int ID { get; private set; }
         public string Content { get; private set; }
-        public string SenderName { get; private set; }
         public int SenderID { get; private set; }
-        public int GroupID { get; private set; }
         public DateTime TimeSent { get; private set; }
         public MessageType Type { get; private set; }
 
-        public Message(MessageType type, int senderID, int groupID, string content, DateTime time)
+        public Message(MessageType type, int senderID, string content, DateTime time)
         {
             ID = new Random().Next(1, short.MaxValue);
             Type = type; Content = content;
-            SenderID = senderID; GroupID = groupID;
+            SenderID = senderID;
             TimeSent = time;
-            SenderName = App.GetClientDisplayName(SenderID);
         }
     }
 }

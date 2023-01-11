@@ -24,6 +24,29 @@ namespace ChatApp_Client
 
         public static ChatApp_Client.MainWindow? mainWindow;
 
+        public static void UpdateClients()
+        {
+            // Clients data
+
+            string json_path = "data/Clients.json";
+            if (!File.Exists(json_path))
+            {
+                return;
+            }
+            clients = JsonSerializer.Deserialize<List<ClientData>>(File.ReadAllText(json_path))!;
+        }
+        public static void UpdateGroups()
+        {
+            // Groups data
+
+            string json_path = "data/Groups.json";
+            if (!File.Exists(json_path))
+            {
+                return;
+            }
+            groups = JsonSerializer.Deserialize<List<GroupData>>(File.ReadAllText(json_path))!;
+        }
+
         public static int GetClientID(string username)
         {
             foreach (var client in clients)
@@ -48,10 +71,38 @@ namespace ChatApp_Client
             return "null";
         }
 
-        public static ClientData CreateClientData(int id, string username, string pass, string displayname, string ava_path)
+        public static string GetClientAvatarPath(int id)
+        {
+            foreach (var client in clients)
+            {
+                if (client.ID == id)
+                {
+                    return client.AvatarPath;
+                }
+            }
+            return "null";
+        }
+
+        public static bool IsClientIDTaken(int clientID)
+        {
+            foreach (var client in clients)
+            {
+                if (client.ID == clientID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static ClientData CreateClientData(string email, string username, string pass, string displayname, string ava_path)
         {
             ClientData client = new();
-            client.ID = id;
+            do
+            {
+                client.ID = new Random().Next(1, short.MaxValue);
+            } while (IsClientIDTaken(client.ID));
+            client.Email = email;
             client.Username = username;
             client.Pass = pass;
             client.DisplayName = displayname;

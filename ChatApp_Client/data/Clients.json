@@ -1,16 +1,18 @@
 [
   {
     "ID": 123,
+    "Email": "anhdungbmt2001@gmail.com",
     "Username": "anhdungbmt2001",
     "Pass": "LuuAnhDung",
-    "DisplayName": "Luu Dung",
+    "DisplayName": "Lưu Dũng",
     "AvatarPath": "C:\\Users\\anhdu\\source\\repos\\CS511_Project\\ChatApp_Client\\resources\\user_male.png"
   },
   {
     "ID": 321,
+    "Email": "anhdung2001bmt@gmail.com",
     "Username": "anhdung2001bmt",
     "Pass": "LuuAnhDung",
-    "DisplayName": "Dung Luu",
+    "DisplayName": "Dũng Lưu",
     "AvatarPath": "C:\\Users\\anhdu\\source\\repos\\CS511_Project\\ChatApp_Client\\resources\\user_male.png"
   }
 ]

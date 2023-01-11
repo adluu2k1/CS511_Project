@@ -12,7 +12,7 @@ namespace ChatApp_Client
         [JsonInclude]
         public int ID = -1;
         [JsonInclude]
-        public string Username = "", Pass = "", DisplayName = "", AvatarPath = "";
+        public string Email = "", Username = "", Pass = "", DisplayName = "", AvatarPath = "";
     }
 
     public class GroupData

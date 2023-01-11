@@ -70,14 +70,11 @@ namespace ChatApp_Client
             }
         }
 
-        // msg = "text 12345 333 Message."
-
         private void OnMessageReceived(string msg)
         {
             string[] arr_msg = msg.Split(" ");
-            string senderID = arr_msg[1];
-            string groupID = arr_msg[2];
-            string main_msg = String.Join(" ", arr_msg[3..]);
+            int senderID = int.Parse(arr_msg[1]);
+            string main_msg = String.Join(" ", arr_msg[2..]);
 
             Message.MessageType msg_type = Message.MessageType.Text;
             switch (arr_msg[0])
@@ -85,11 +82,22 @@ namespace ChatApp_Client
                 case "image":
                     msg_type = Message.MessageType.Image;
                     break;
+                case "res":
+                    msg_type = Message.MessageType.Response;
+                    if (arr_msg[2] == "joined")
+                    {
+                        App.UpdateClients();
+                        main_msg = App.GetClientDisplayName(int.Parse(arr_msg[3])) + " joined the conversation.";
+                    }
+                    break;
             }
 
-            Message message = new(msg_type, int.Parse(senderID), int.Parse(groupID), main_msg, DateTime.Now);
+            Message message = new(msg_type, senderID, main_msg, DateTime.Now);
 
-            App.mainWindow!.Dispatcher.Invoke(App.mainWindow!.DisplayMessage, message, "resources/user_male.png");
+            if (App.mainWindow != null)
+            {
+                App.mainWindow!.Dispatcher.Invoke(App.mainWindow!.DisplayMessage, message, App.GetClientAvatarPath(senderID));
+            }
         }
 
         public void Send(string str)

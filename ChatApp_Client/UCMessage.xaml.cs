@@ -20,7 +20,7 @@ namespace ChatApp_Client
     /// </summary>
     public partial class UCMessage : UserControl
     {
-        public UCMessage(Message msg, string avatar_path, int clientID, Brush background)
+        public UCMessage(Message msg, string avatar_path, int clientID, Brush background, bool IsSameSender)
         {
             InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace ChatApp_Client
             AvatarWrapper.Background = new ImageBrush(new BitmapImage(new Uri(avatar_path, UriKind.RelativeOrAbsolute)));
             AvatarWrapper.CornerRadius = new CornerRadius(AvatarWrapper.Height / 2);
 
-            SenderNameBlock.Text = msg.SenderName;
+            SenderNameBlock.Text = App.GetClientDisplayName(msg.SenderID);
 
             if (msg.SenderID == 0)
             {
@@ -39,8 +39,15 @@ namespace ChatApp_Client
             else
             {
                 ChatBubble.Background = background;
-                AvatarWrapper.Visibility = Visibility.Visible;
-                SenderNameBlock.Visibility = Visibility.Visible;
+                if (!IsSameSender)
+                {
+                    AvatarWrapper.Visibility = Visibility.Visible;
+                    SenderNameBlock.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    AvatarWrapper.Visibility = Visibility.Hidden;
+                }
 
                 if (msg.SenderID == clientID)
                 {

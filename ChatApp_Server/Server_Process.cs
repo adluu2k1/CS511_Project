@@ -36,8 +36,7 @@ namespace ChatApp_Server
                 Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
 
                 Console.WriteLine("Info: Client " + client.ID.ToString() + " joined the conversation.");
-                //SendAll("text 0 Client " + client.ID.ToString() + " joined the conversation.");
-
+                SendAll("res 0 joined " + client.ID.ToString());
 
             }
             catch (Exception e)

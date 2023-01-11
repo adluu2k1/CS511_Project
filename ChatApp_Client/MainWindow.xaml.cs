@@ -25,7 +25,7 @@ namespace ChatApp_Client
     {
         Client_Process client;
 
-        int CurrentGroup = 0;
+        public Message? LatestMessage;
 
         public MainWindow(Client_Process client)
         {
@@ -44,11 +44,21 @@ namespace ChatApp_Client
                 return;
             }
 
-            UCMessage MessageUI = new(msg, avatar_path, client.ID, menuMore.Background);
+            UCMessage MessageUI;
+            if (LatestMessage == null || msg.SenderID != LatestMessage.SenderID)
+            {
+                MessageUI = new(msg, avatar_path, client.ID, menuMore.Background, false);
+            }
+            else
+            {
+                MessageUI = new(msg, avatar_path, client.ID, menuMore.Background, true);
+            }
 
             stackChatHistory.Children.Add(MessageUI);
 
             scrollChatHistory.ScrollToEnd();
+
+            LatestMessage = msg;
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -78,7 +88,7 @@ namespace ChatApp_Client
 
         private void Send_tbMessageText()
         {
-            string msg = "text " + client.ID.ToString() + " " + CurrentGroup.ToString() + " " + tbMessage.Text;
+            string msg = "text " + client.ID.ToString() + " " + tbMessage.Text;
             client.Send(msg);
             tbMessage.Clear();
             tbMessage.Focus();
