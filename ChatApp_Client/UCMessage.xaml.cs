@@ -38,7 +38,32 @@ namespace ChatApp_Client
             }
             else
             {
-                ChatBubble.Background = background;
+                switch (msg.Type)
+                {
+                    case Message.MessageType.Text:
+                        ChatBubble.Background = background;
+                        break;
+
+                    case Message.MessageType.Image:
+                        MsgTextBox.Visibility = Visibility.Collapsed;
+
+                        image.Source = new BitmapImage(new Uri(msg.Content, UriKind.Absolute));
+                        image.Visibility = Visibility.Visible;
+
+                        break;
+
+                    case Message.MessageType.Media:
+                        MsgTextBox.Visibility = Visibility.Collapsed;
+
+                        media.Source = new(msg.Content);
+                        media.Pause();
+                        panelMediaUI.Visibility = Visibility.Visible;
+
+                        break;
+                }
+                
+
+
                 if (!IsSameSender)
                 {
                     AvatarWrapper.Visibility = Visibility.Visible;
@@ -60,6 +85,21 @@ namespace ChatApp_Client
                     this.FlowDirection = FlowDirection.LeftToRight;
                 }
             }
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            media.Play();
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            media.Pause();
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            media.Stop();
         }
     }
 }

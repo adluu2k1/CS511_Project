@@ -82,6 +82,9 @@ namespace ChatApp_Client
                 case "image":
                     msg_type = Message.MessageType.Image;
                     break;
+                case "media":
+                    msg_type = Message.MessageType.Media;
+                    break;
                 case "res":
                     msg_type = Message.MessageType.Response;
                     if (arr_msg[2] == "joined")

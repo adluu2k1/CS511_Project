@@ -12,7 +12,8 @@ namespace ChatApp_Client
         {
             Response,
             Text,
-            Image
+            Image,
+            Media
         }
 
         public int ID { get; private set; }

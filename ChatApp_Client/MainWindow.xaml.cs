@@ -104,7 +104,35 @@ namespace ChatApp_Client
 
             if (dlgOpen.ShowDialog() == true)
             {
-                
+                string msg = "image " + client.ID.ToString() + " " + dlgOpen.FileName;
+                client.Send(msg);
+                tbMessage.Focus();
+            }
+        }
+
+        private void btnAudio_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlgOpen = new();
+            dlgOpen.RestoreDirectory = true;
+
+            if (dlgOpen.ShowDialog() == true)
+            {
+                string msg = "media " + client.ID.ToString() + " " + dlgOpen.FileName;
+                client.Send(msg);
+                tbMessage.Focus();
+            }
+        }
+
+        private void btnVideo_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlgOpen = new();
+            dlgOpen.RestoreDirectory = true;
+
+            if (dlgOpen.ShowDialog() == true)
+            {
+                string msg = "media " + client.ID.ToString() + " " + dlgOpen.FileName;
+                client.Send(msg);
+                tbMessage.Focus();
             }
         }
     }

@@ -78,6 +78,13 @@
                                 Content="{materialDesign:PackIcon Image}" ToolTip="Picture"
                                 Click="btnImage_Click">
                                 </Button>
+                                <Button x:Name="btnAudio"
+                                Content="{materialDesign:PackIcon Speakerphone}" ToolTip="Audio"
+                                Click="btnAudio_Click">
+                                </Button>
+                                <Button x:Name="btnVideo"
+                                Content="{materialDesign:PackIcon MovieOpenPlay}" ToolTip="Video"
+                                Click="btnVideo_Click"/>
                             </StackPanel>
                         </materialDesign:PopupBox>
 
