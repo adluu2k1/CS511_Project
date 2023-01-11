@@ -60,8 +60,8 @@ namespace ChatApp_Client
                     if (tboxPassword.Password == client.Pass)
                     {
                         this.Visibility = Visibility.Collapsed;
-                        App.mainWindow = new(new Client_Process(client.ID));
-                        App.mainWindow.Show();
+                        ChooseGroup chooseGroupWindow = new(new Client_Process(client.ID));
+                        chooseGroupWindow.Show();
                         this.Close();
                         return;
                     }
@@ -70,8 +70,8 @@ namespace ChatApp_Client
             }
 
             this.Visibility = Visibility.Collapsed;
-            App.mainWindow = new(new Client_Process(123));
-            App.mainWindow.Show();
+            ChooseGroup chooseGroupWindow_ = new(new Client_Process(123));
+            chooseGroupWindow_.Show();
             this.Close();
             return;
 
