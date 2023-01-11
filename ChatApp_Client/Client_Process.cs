@@ -16,15 +16,25 @@ namespace ChatApp_Client
 {
     public class Client_Process
     {
-        public int ID { get; private set; } = new Random().Next(1, short.MaxValue);
-        public string Name { get; private set; }
+        public int ID { get; private set; }
+        public string DisplayName { get; private set; }
         private TcpClient? tcpClient;
 
-        ChatApp_Client.MainWindow? winMain = Application.Current.Windows.OfType<ChatApp_Client.MainWindow>().FirstOrDefault();
+        //ChatApp_Client.MainWindow? winMain = Application.Current.Windows.OfType<ChatApp_Client.MainWindow>().FirstOrDefault();
 
-        public Client_Process()
+        public Client_Process(int clientID)
         {
-            Name = "Client " + ID.ToString();
+            if (clientID == -1)
+            {
+                ID = new Random().Next(1, short.MaxValue);
+            }
+            else
+            {
+                ID = clientID;
+            }
+            App.CurrentClientID = ID;
+
+            DisplayName = App.GetClientDisplayName(ID);
 
             try
             {
@@ -60,13 +70,14 @@ namespace ChatApp_Client
             }
         }
 
-        // msg = "text 12345 Message."
+        // msg = "text 12345 333 Message."
 
         private void OnMessageReceived(string msg)
         {
             string[] arr_msg = msg.Split(" ");
-            string sender = arr_msg[1];
-            string main_msg = String.Join(" ", arr_msg[2..]);
+            string senderID = arr_msg[1];
+            string groupID = arr_msg[2];
+            string main_msg = String.Join(" ", arr_msg[3..]);
 
             Message.MessageType msg_type = Message.MessageType.Text;
             switch (arr_msg[0])
@@ -76,9 +87,9 @@ namespace ChatApp_Client
                     break;
             }
 
-            Message message = new(msg_type, int.Parse(sender), main_msg);
+            Message message = new(msg_type, int.Parse(senderID), int.Parse(groupID), main_msg, DateTime.Now);
 
-            winMain!.Dispatcher.Invoke(winMain!.DisplayMessage, message, "resources/user_male.png");
+            App.mainWindow!.Dispatcher.Invoke(App.mainWindow!.DisplayMessage, message, "resources/user_male.png");
         }
 
         public void Send(string str)

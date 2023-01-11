@@ -1,0 +1,16 @@
+[
+  {
+    "ID": 123,
+    "Username": "anhdungbmt2001",
+    "Pass": "LuuAnhDung",
+    "DisplayName": "Luu Dung",
+    "AvatarPath": "C:\\Users\\anhdu\\source\\repos\\CS511_Project\\ChatApp_Client\\resources\\user_male.png"
+  },
+  {
+    "ID": 321,
+    "Username": "anhdung2001bmt",
+    "Pass": "LuuAnhDung",
+    "DisplayName": "Dung Luu",
+    "AvatarPath": "C:\\Users\\anhdu\\source\\repos\\CS511_Project\\ChatApp_Client\\resources\\user_male.png"
+  }
+]

@@ -24,13 +24,16 @@ namespace ChatApp_Client
     public partial class MainWindow : Window
     {
         Client_Process client;
-        public MainWindow()
+
+        int CurrentGroup = 0;
+
+        public MainWindow(Client_Process client)
         {
             InitializeComponent();
             Width = SystemParameters.MaximizedPrimaryScreenWidth * (3.0 / 5);
             Height = SystemParameters.MaximizedPrimaryScreenHeight * (4.0 / 5);
 
-            client = new();
+            this.client = client;
             
         }
 
@@ -75,7 +78,7 @@ namespace ChatApp_Client
 
         private void Send_tbMessageText()
         {
-            string msg = "text " + client.ID.ToString() + " " + tbMessage.Text;
+            string msg = "text " + client.ID.ToString() + " " + CurrentGroup.ToString() + " " + tbMessage.Text;
             client.Send(msg);
             tbMessage.Clear();
             tbMessage.Focus();

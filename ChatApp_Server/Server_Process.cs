@@ -36,7 +36,7 @@ namespace ChatApp_Server
                 Listener.BeginAcceptTcpClient(new AsyncCallback(AcceptClient), Listener);
 
                 Console.WriteLine("Info: Client " + client.ID.ToString() + " joined the conversation.");
-                SendAll("text 0 Client " + client.ID.ToString() + " joined the conversation.");
+                //SendAll("text 0 Client " + client.ID.ToString() + " joined the conversation.");
 
 
             }
@@ -89,7 +89,7 @@ namespace ChatApp_Server
         {
             ClientsList.Remove(client);
             Console.WriteLine("Info: Client " + client.ID.ToString() + " has been disconnected.");
-            SendAll("text 0 Client " + client.ID.ToString() + " has been disconnected.");
+            //SendAll("text 0 Client " + client.ID.ToString() + " has been disconnected.");
         }
     }
 
