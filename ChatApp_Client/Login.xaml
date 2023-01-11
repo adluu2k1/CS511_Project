@@ -47,7 +47,6 @@
             </TextBlock.Style>
         </TextBlock>
         <TextBox x:Name="tboxUsername" Grid.Row="3"
-                 ToolTip="Username"
                  FontSize="20"
                  Width="450" Height="40"
                  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
@@ -60,7 +59,6 @@
                    Foreground="Gray"
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <PasswordBox x:Name="tboxPassword" Grid.Row="4"
-                     ToolTip="Password"
                      FontSize="20"
                      Width="450" Height="40"
                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"

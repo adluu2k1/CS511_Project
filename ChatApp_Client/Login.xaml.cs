@@ -28,26 +28,15 @@ namespace ChatApp_Client
             InitializeComponent();
             InitData();
         }
+        public Login(bool isFromAnotherWindow)
+        {
+            InitializeComponent();
+        }
 
         private void InitData()
         {
-            // Clients data
-
-            string json_path = "data/Clients.json";
-            if (!File.Exists(json_path))
-            {
-                return;
-            }
-            App.clients = JsonSerializer.Deserialize<List<ClientData>>(File.ReadAllText(json_path))!;
-
-            // Groups data
-
-            json_path = "data/Groups.json";
-            if (!File.Exists(json_path))
-            {
-                return;
-            }
-            App.groups = JsonSerializer.Deserialize<List<GroupData>>(File.ReadAllText(json_path))!;
+            App.UpdateClients();
+            App.UpdateGroups();
         }
 
         private void tboxPassword_PasswordChanged(object sender, RoutedEventArgs e)
@@ -85,7 +74,11 @@ namespace ChatApp_Client
 
         private void linkCreateAccount_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Clicked");
+            this.Visibility = Visibility.Collapsed;
+            CreateAccount createAccountWindow = new();
+            createAccountWindow.Show();
+            this.Close();
+            return;
         }
     }
 }
