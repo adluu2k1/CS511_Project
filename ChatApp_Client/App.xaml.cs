@@ -94,6 +94,17 @@ namespace ChatApp_Client
             }
             return false;
         }
+        public static bool IsGroupIDTaken(int groupID)
+        {
+            foreach (var group in groups)
+            {
+                if (group.ID == groupID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public static ClientData CreateClientData(string email, string username, string pass, string displayname, string ava_path)
         {
@@ -110,11 +121,24 @@ namespace ChatApp_Client
 
             return client;
         }
-        public static GroupData CreateGroupData(int iD, string displayName, string clientsList)
+        public static GroupData CreateGroupData(string displayName = "", string clientsList = "")
         {
             GroupData group = new();
-            group.ID = iD;
-            group.DisplayName = displayName;
+
+            do
+            {
+                group.ID = new Random().Next(1, short.MaxValue);
+            } while (IsGroupIDTaken(group.ID));
+
+            if (displayName == "")
+            {
+                group.DisplayName = "Group ID: " + group.ID.ToString();
+            }
+            else
+            {
+                group.DisplayName = displayName;
+            }
+
             group.ClientsList = clientsList;
 
             return group;

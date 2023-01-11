@@ -24,17 +24,20 @@ namespace ChatApp_Client
     public partial class MainWindow : Window
     {
         Client_Process client;
+        GroupData group;
 
         public Message? LatestMessage;
 
         public MainWindow(Client_Process client)
         {
             InitializeComponent();
-            Width = SystemParameters.MaximizedPrimaryScreenWidth * (3.0 / 5);
+            Width = SystemParameters.MaximizedPrimaryScreenWidth * (2.5 / 5);
             Height = SystemParameters.MaximizedPrimaryScreenHeight * (4.0 / 5);
 
             this.client = client;
-            
+            this.group = App.CreateGroupData("", client.ID.ToString());
+
+            tbGroupName.Text = group.DisplayName;
         }
 
         public void DisplayMessage(Message msg, string avatar_path)

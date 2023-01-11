@@ -68,6 +68,13 @@ namespace ChatApp_Client
                     break;
                 }
             }
+
+            this.Visibility = Visibility.Collapsed;
+            App.mainWindow = new(new Client_Process(123));
+            App.mainWindow.Show();
+            this.Close();
+            return;
+
             MessageBox.Show("Cannot login. Please double check your username and password.", "ChatApp",
                             MessageBoxButton.OK, MessageBoxImage.Error);
         }
