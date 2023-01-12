@@ -83,6 +83,18 @@ namespace ChatApp_Client
             return "null";
         }
 
+        public static string GetGroupDisplayName(int id)
+        {
+            foreach (var group in groups)
+            {
+                if (group.ID == id)
+                {
+                    return group.DisplayName;
+                }
+            }
+            return "null";
+        }
+
         public static bool IsClientIDTaken(int clientID)
         {
             foreach (var client in clients)
@@ -117,6 +129,10 @@ namespace ChatApp_Client
             client.Username = username;
             client.Pass = pass;
             client.DisplayName = displayname;
+            if (displayname == "")
+            {
+                client.DisplayName = username;
+            }
             client.AvatarPath = ava_path;
 
             return client;

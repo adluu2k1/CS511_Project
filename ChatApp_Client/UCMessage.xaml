@@ -65,6 +65,10 @@
                     </Grid>
                 </Grid>
             </Border>
+            <Button x:Name="btnDownload"
+                    Style="{DynamicResource MaterialDesignIconButton}"
+                    Content="{materialDesign:PackIcon Download}"
+                    Click="btnDownload_Click"/>
         </StackPanel>
 
     </Grid>

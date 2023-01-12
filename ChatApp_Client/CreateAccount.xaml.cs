@@ -42,6 +42,13 @@ namespace ChatApp_Client
         {
             // Check
 
+            if (tboxEmail.Text == "" || tboxUsername.Text == "" || tboxPassword.Password == "")
+            {
+                MessageBox.Show("Cannot create account. Please make sure you have filled the \"Email\", \"Username\" and \"Password\" sections.", "Create new account",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             foreach (var client in App.clients)
             {
                 if (!IsEmailValid(tboxEmail.Text))
@@ -70,11 +77,13 @@ namespace ChatApp_Client
             App.clients.Add(new_client);
             App.SaveClients();
 
-            // Show MainWindow
+            MessageBox.Show("Account created successfully!");
+
+            // Back to login
 
             this.Visibility = Visibility.Collapsed;
-            App.mainWindow = new(new Client_Process(new_client.ID));
-            App.mainWindow.Show();
+            Login login = new(true);
+            login.Show();
             this.Close();
         }
 

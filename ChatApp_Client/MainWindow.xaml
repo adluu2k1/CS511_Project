@@ -8,7 +8,6 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
         Title="Chat App" d:Width="768" d:Height="664" WindowStartupLocation="CenterScreen">
 
     <TabControl TabStripPlacement="Left"
@@ -45,6 +44,11 @@
                                    FontSize="30" FontWeight="Bold"
                                    Margin="20,0"
                                    VerticalAlignment="Center"/>
+                        <Button x:Name="btnGroupRename" Visibility="Collapsed"
+                                Style="{DynamicResource MaterialDesignIconButton}"
+                                Content="{materialDesign:PackIcon Pencil}"
+                                ToolTip="Rename Group"
+                                Click="btnGroupRename_Click"/>
                     </StackPanel>
 
                     <ScrollViewer x:Name="scrollChatHistory" Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -58,7 +62,24 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-
+                        
+                        <TextBlock x:Name="placeholderText" Grid.Column="0"
+                                   Text="Text"
+                                   FontSize="15"
+                                   Foreground="Gray"
+                                   Margin="25,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=tbMessage, Path=Text}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         <TextBox x:Name="tbMessage" Grid.Column="0"
                          Height="35"
                          Margin="20,0,0,0"

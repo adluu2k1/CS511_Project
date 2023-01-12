@@ -69,12 +69,6 @@ namespace ChatApp_Client
                 }
             }
 
-            this.Visibility = Visibility.Collapsed;
-            ChooseGroup chooseGroupWindow_ = new(new Client_Process(123));
-            chooseGroupWindow_.Show();
-            this.Close();
-            return;
-
             MessageBox.Show("Cannot login. Please double check your username and password.", "ChatApp",
                             MessageBoxButton.OK, MessageBoxImage.Error);
         }

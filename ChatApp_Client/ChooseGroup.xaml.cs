@@ -48,7 +48,10 @@ namespace ChatApp_Client
             }
             else
             {
-
+                this.Visibility = Visibility.Collapsed;
+                App.mainWindow = new(client, int.Parse(tboxGroupID.Text));
+                App.mainWindow.Show();
+                this.Close();
             }
         }
     }

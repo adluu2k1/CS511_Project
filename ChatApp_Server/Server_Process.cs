@@ -88,7 +88,7 @@ namespace ChatApp_Server
         {
             ClientsList.Remove(client);
             Console.WriteLine("Info: Client " + client.ID.ToString() + " has been disconnected.");
-            //SendAll("text 0 Client " + client.ID.ToString() + " has been disconnected.");
+            SendAll("res 0 disconnected " + client.ID.ToString());
         }
     }
 

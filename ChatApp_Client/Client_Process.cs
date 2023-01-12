@@ -92,6 +92,15 @@ namespace ChatApp_Client
                         App.UpdateClients();
                         main_msg = App.GetClientDisplayName(int.Parse(arr_msg[3])) + " joined the conversation.";
                     }
+                    else if (arr_msg[2] == "disconnected")
+                    {
+                        main_msg = App.GetClientDisplayName(int.Parse(arr_msg[3])) + " has been disconnected.";
+                    }
+                    else if (arr_msg[2] == "grouprename")
+                    {
+                        main_msg = "The group was renamed to " + String.Join(" ", arr_msg[3..]);
+                        App.mainWindow!.Dispatcher.Invoke(SetGroupName, String.Join(" ", arr_msg[3..]));
+                    }
                     break;
             }
 
@@ -101,6 +110,11 @@ namespace ChatApp_Client
             {
                 App.mainWindow!.Dispatcher.Invoke(App.mainWindow!.DisplayMessage, message, App.GetClientAvatarPath(senderID));
             }
+        }
+
+        public void SetGroupName(string groupName)
+        {
+            App.mainWindow!.tbGroupName.Text = groupName + " (Group ID: " + App.mainWindow.tbGroupName.Text.Split(" ").Last().Replace(")", "") + ")";
         }
 
         public void Send(string str)

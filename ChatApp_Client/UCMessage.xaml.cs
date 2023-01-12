@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,12 +37,14 @@ namespace ChatApp_Client
             {
                 this.HorizontalAlignment = HorizontalAlignment.Center;
                 MsgTextBox.Foreground = Brushes.Gray;
+                btnDownload.Visibility = Visibility.Collapsed;
             }
             else
             {
                 switch (msg.Type)
                 {
                     case Message.MessageType.Text:
+                        btnDownload.Visibility = Visibility.Collapsed;
                         ChatBubble.Background = background;
                         break;
 
@@ -100,6 +104,19 @@ namespace ChatApp_Client
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             media.Stop();
+        }
+
+        private void btnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlgDownload = new SaveFileDialog();
+            dlgDownload.RestoreDirectory = true;
+            dlgDownload.Title = "Download";
+
+            if (dlgDownload.ShowDialog() == true)
+            {
+                File.Copy(MsgTextBox.Text, dlgDownload.FileName, true);
+                MessageBox.Show("Đã tải xuống thành công!");
+            }
         }
     }
 }
